@@ -30,7 +30,7 @@ void Perceptron::init(char *fn)
 	for (int i = 0; i < data.n; ++i)
 	{
 		double tmp = (*(cur++));
-		len[i] = 0;
+		len[i] = 1;
 		for (int j = 1; j <= data.d; ++j)
 		{
 			len[i] += (*cur) * (*cur);
@@ -88,16 +88,17 @@ void Perceptron::runDeletron(int max_lambda)
 			double s = dot(w, data.point(i));
 			if (s < EPS)
 			{
-				int t = int(-s * len[i] - EPS) + 1;
+				int t = (int)(-s * len[i] - EPS) + 1;
+				
 				if (t > lambda[i]) t = lambda[i];
 				add(w, data.point(i), t);
 				lambda[i] -= t;
 				flag = true;
-				tot += t;
+				tot += (int)t;
 			}
 		}
 	}
-	printf("Number of deletion %d\n", tot);
+	//printf("Number of deletion %d\n", tot);
 }
 
 void Perceptron::runMarginDeletron(int max_lambda, double gamma)
